@@ -36,15 +36,10 @@ class Stoper extends React.Component{
   
   stop() {
     if(this.state.runing) {
-        this.state = {
+        this.setState ({
           runing: false
-        }
+        });
         clearInterval(this.started);
-    }
-    else{
-      this.state = {
-        runing: true
-      }
     }
   }
   
@@ -60,22 +55,6 @@ class Stoper extends React.Component{
     }
   }
   
-  pad0(value) {
-    let result = value.toString();
-    if (result.length < 2) {
-        result = '0' + result;
-    }
-    return result;
-  }
-  
-  format() {
-      this.setState({
-        minutes: {pad0}(this.state.minutes),
-        seconds: {pad0}(this.state.seconds),
-        miliseconds: {pad0}(Math.floor(this.state.miliseconds)),
-      });
-  }
-  
   save() {
     this.setState({
       scores: [...this.state.scores, `${this.state.minutes}:${this.state.seconds}:${this.state.miliseconds}`]
@@ -84,7 +63,7 @@ class Stoper extends React.Component{
   
   render() {
     const scores = this.state.scores.map((score) => {
-     return (<li>{score}</li>)
+     return (<li key={score.toString()}>{score}</li>)
      });
     return(
       
@@ -95,7 +74,7 @@ class Stoper extends React.Component{
           <a href="#" className="button" onClick={this.reset.bind(this)}>Reset</a>
           <a href="#" className="button" onClick={this.save.bind(this)}>Save</a>
           <div className="stopwatch">{this.state.minutes}:{this.state.seconds}:{this.state.miliseconds}</div>
-          <ul class="results">
+          <ul className="results">
             {scores}
           </ul>
         </nav>
