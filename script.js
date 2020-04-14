@@ -1,3 +1,11 @@
+  function pad0(value) {
+    let result = value.toString();
+    if (result.length < 2) {
+        result = '0' + result;
+    }
+    return result;
+}
+
 class Stoper extends React.Component{
   constructor(props) {
     super(props);
@@ -54,10 +62,16 @@ class Stoper extends React.Component{
       });
     }
   }
+
+
+  format(times) {
+        return `${pad0(times.minutes)}:${pad0(times.seconds)}:${pad0(Math.floor(times.miliseconds))}`;
+  }
+
   
   save() {
     this.setState({
-      scores: [...this.state.scores, `${this.state.minutes}:${this.state.seconds}:${this.state.miliseconds}`]
+      scores: [...this.state.scores, this.format(this.state)]
     })
   }
   
@@ -73,7 +87,7 @@ class Stoper extends React.Component{
           <a href="#" className="button" onClick={this.stop.bind(this)}>Stop</a>
           <a href="#" className="button" onClick={this.reset.bind(this)}>Reset</a>
           <a href="#" className="button" onClick={this.save.bind(this)}>Save</a>
-          <div className="stopwatch">{this.state.minutes}:{this.state.seconds}:{this.state.miliseconds}</div>
+          <div className="stopwatch">{this.format(this.state) }</div>
           <ul className="results">
             {scores}
           </ul>
